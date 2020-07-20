@@ -1,0 +1,61 @@
+;
+;       User your_name
+;       
+;       Generic Input file
+;
+title               =  MD run
+cpp                 =  /lib/cpp
+define              = -DPOSRES		; Defines for grompp to apply on the topology. Examples: -DPOSRES to apply position restraints on atoms
+
+integrator          =  md      		; Select the desired integrator/algorithm such as steep, md, l-bfgs. To apply the Molecular Dynamics run procedure, use "md" 
+tinit               =  0.0     		; Starting time for the procedure
+dt                  =  0.001   		; Integrator time step. This defines the time for integration on each step, in picoseconds
+nsteps              =  100000  		; Number of steps to be performed in the procedure. Multiplying this value by the integrator (dt) will provide you with the the total time of the simulation, in this case, 100 ps
+nstcomm             =  1       		; Frequency for removing the motion of the center of mass
+nstxout-compressed  =  5000    		; Number of steps between each system coordinates update written in a compressed format as output
+xtc-precision       =  1000    		; precision of the written positions. In this case, they are precise to 0.001 nm
+nstxout             =  0       		; Number of steps between each system coordinates update written to the output trajectory file (.xtc)
+nstvout             =  0       		; Number of steps between each system velocities update written to the output trajectory file (.xtc)
+nstfout             =  0       		; Number of steps between each system forces update written to the output trajectory file (.xtc)
+nstlog              =  0       		; Number of steps between each system energies update written to the output log file (.log)
+nstenergy           =  5000    		; Number of steps between each system energies update written to the output energy file (.edr)
+ns_type             =  grid    		; Creates a "grid" on the box to check atoms in neighboring grid cells when creating a new neighbour list for force updates every "nstlist" step or uses a "simple" search by checking every atom
+
+; PME
+coulombtype         = PME		; Select the desired algorithm to compute electrostatic interactions: Particle-Mesh Ewald (PME), Reaction Field (RF), Generalized Reaction Field (GRF) are the most commonly used
+nstlist             = 10       		; Number of steps between each neighboring list update before computing the forces update for every atom
+rlist               = 1.4      		; Atoms within this defined radius (in nm), centered at each atom, are included in the neighboring list for electrostatic interactions calculations
+fourierspacing      = 0.12     		; Grid spacing for fast Fourier transform
+rcoulomb            = 1.4      		; Cutoff for short-range electrostatic interactions for each atom in the neighbouring list
+pme_order           = 4	       		; Value for the interpolation order to calculate Van der Walls interactions using PME. 4 is for a cubic interpolation and you can select 6/8/10 to reduce grid dimensions
+rvdw                = 1.4      		; Cutoff for short-range Van der Waals interactions for each atom in the neighbouring list
+
+vdwtype             = cut-off  		; The calculation of Van der Walls interactions are defined by a simple cut-off scheme, such as applied in the electrostatics calculations. It is defined by the rlist and rvdw. If rvdw > rlist, a twin-range cutoff is applied
+cut-off-scheme      = Verlet   		; Cut-off scheme for neighbour list search. Select between a Verlet scheme, which allows a pair list to be construed with a buffering radius, or a energy group scheme, where several atoms are included as a group, thus allowing faster neighbour searching
+
+; Energy monitoring 
+energygrps          =  System		; Groups for which non-bonded potential energies are written to the output energy file (.edr). Note that this feature isn't supported on GPUs
+
+Tcoupl              =  V-rescale	; Method used to perform temperaure coupling using a temperature bath, using for example V-rescale or berendsen thermostats. This adjusts the temperature of the system to match a reference value, provided by the user on the "ref_t" parameter
+tc-grps             =  Protein  SOL	; Groups to be coupled to a temperature bath. The groups defined in this parameter can have a different temperature bath parameters
+tau_t               =  0.01     0.01	; Time constant for temperature coupling. This defines the strength of the coupling, meaning a higher tau_t will lead to more abrupt adjustments to temperature, while lower tau_t will lead to smoother but slower changes in temperature. Defining this parameter as -1 leads to no coupling
+ref_t               =  310.0    310.0	; Reference temperature for temperature coupling
+
+; Isotropic pressure coupling is now off
+Pcoupl              =  no		; Method used to perform pressure coupling to the system, through a pressure bath, such as berendsen or Parrinello-Rahman. This adjusts the pressure of the system by changing the volume, to match a refrence pressure. 
+Pcoupltype          =  isotropic	; Type of isotropy used for the pressure coupling. Can be isotropic, semiisotropic, anisotropic or surface-tension
+tau_p               =  1.0		; Time constant for pressure coupling. This defines the strength of the coupling, meaning a higher tau_p will lead to more abrupt adjustments to pressure, while lower tau_p will lead to smoother but slower changes 
+compressibility     =  4.5e-5		; Compressibility of the system. Generally the compressibility for water is used, due to this being a common solvent. The number of required values depends on "Pcoupltype" parameter (one value for isotropic; two for semiisotropic and surface-tension; six for anisotropic)
+ref_p               =  1.0		; Reference pressure for pressure coupling. The number of required values depends on "Pcoupltype" parameter (one value for isotropic; two for semiisotropic and surface-tension; six for anisotropic)
+nstpcouple          =  1		; Frequency for pressure coupling
+
+; Generate velocites is on at 310 K.
+gen_vel             =  yes		; Generate velocities according to a Maxwell distribution at the selected temperature to start a simulation. This feature is only turned on for the first step of initiation, after that the velocities are read from the trajectory file from the previous step/procedure
+gen_temp            =  310.0   		; Temperature selected to generate random initial velocities
+gen_seed            =  -1      		; Seed to generate a given set of random velocities. By defining this parameter as "-1", a random seed is assigned
+
+
+constraint_algorithm=lincs     		; Select the desired algorithm (LINCS, P-LINCS, SHAKE) to control atom movement and keep bonds intact, by calculating root mean square deviations from previous steps. If a bond rotates more than the "lincs-warnangle" value, a warning is issued. 
+lincs_order         =  8		; Order value for the matrix expansion. 4, 6 or 8, might be used, depending on the type of simulation. Normal MD simulations use 4, simulations with large time-steps use 6 and energy minimization use 8 as a default.
+constraints         =  all-bonds	; Additionally, one might apply constraints on bonds besides the ones specified on the topology file. One can select between: none, all-bonds, h-bonds, all-angles and h-angles
+lincs-warnangle     =  90		; Maximum angle value that a bond can rotate before LINCS issues a warning. After a certain amount of warnings, the simulation is halted;

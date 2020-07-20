@@ -1,0 +1,40 @@
+;
+;       User your_name
+;       
+;       Generic Input file
+;
+title               =  Minimization step1
+cpp                 =  /lib/cpp
+define              =        ; Defines for grompp to apply on the topology. Examples: -DPOSRES to apply position restraints on atoms
+
+integrator          =  steep ; Select the desired integrator/algorithm such as stepe, md, l-bfgs. To apply the Steepest descent minimization procedure, use "steep" ;
+emtol               =  0.0   ; Steepest descent energy minimization tolerance. When the maximum forceis smaller than emtol, the minimization is converged;
+emstep		    =  0.001 ; Maximum step size in nanometers (nm) that an atom can move between each integrator step;
+nstcgsteep          = 1000   ; Number of optimization steps to determine the optimial steepest descent step using a conjugate gradient method;
+nsteps              = 10000   ; Number of steepest descent steps to be performed in the procedure;
+nstxout             =  0     ; Number of steps between each system coordinates update written to the output trajectory file (.xtc);
+nstvout             =  0     ; Number of steps between each system velocities update written to the output trajectory file (.xtc);
+nstfout             =  0     ; Number of steps between each system forces update written to the output trajectory file (.xtc);
+nstlog              =  0     ; Number of steps between each system energies update written to the output trajectory file (.xtc);
+ns_type             = grid   ; Creates a "grid" on the box to check atoms in neighboring grid cells when creating a new neighbour list for force updates every "nstlist" step or uses a "simple" search by checking every atom;
+pbc                 = xyz    ; Periodic boundary conditions are applied at xyz vectors ("xyz") or a given plane ("xy") (only when using "ns_type = grid" or no pbc ("no");
+
+;PME 
+coulombtype         = PME    ; Select the desired algorithm to compute electrostatic interactions: Particle-Mesh Ewald (PME), Reaction Field (RF), Generalized Reaction Field (GRF) are the most commonly used;
+nstlist             =  10    ; Number of steps between each neighboring list update before computing the forces update for every atom;
+rlist               = 1.4    ; Atoms within this defined radius (in nm), centered at each atom, are included in the neighboring list for electrostatic interactions calculations;
+fourierspacing      = 0.12   ; Grid spacing for fast Fourier transform;
+rcoulomb            = 1.4    ; Cutoff for short-range electrostatic interactions for each atom in the neighbouring list;
+pme_order           = 4	     ; Value for the interpolation order to calculate Van der Walls interactions using PME. 4 is for a cubic interpolation and you can select 6/8/10 to reduce grid dimensions;
+rvdw                = 1.4    ; Cutoff for short-range Van der Waals interactions for each atom in the neighbouring list;	
+
+vdwtype             = cut-off ; The calculation of Van der Walls interactions are defined by a simple cut-off scheme, such as applied in the electrostatics calculations. It is defined by the rlist and rvdw. If rvdw > rlist, a twin-range cutoff is applied;
+cutoff-scheme       = Verlet  ; Cut-off scheme for neighbour list search. Select between a Verlet scheme, which allows a pair list to be construed with a buffering radius, or a energy group scheme, where several atoms are included as a group, thus allowing faster neighbour searching;
+
+gen_vel             =  no ; Generate velocities according to a Maxwell distribution at the selected temperature to start a simulation. In this case, no velocities are necessary to minimize the system energy;
+
+
+constraint_algorithm=lincs  ; Select the desired algorithm (LINCS, P-LINCS, SHAKE) to control atom movement and keep bonds intact, by calculating root mean square deviations from previous steps. If a bond rotates more than the "lincs-warnangle" value, a warning is issued. 
+lincs_order         =  8    ; Order value for the matrix expansion. When might use 4, 6 or 8, depending on the type of simulation. Normal MD simulations use 4, simulations with large time-steps use 6 and energy minimization use 8 as a default.
+lincs-warnangle     =  90   ; Maximum angle value that a bond can rotate before LINCS issues a warning. After a certain amount of warnings, the simulation is halted;
+constraints         =  none ; Additionally, one might apply constraints on bonds besides the ones specified on the topology file. One can select between: none, all-bonds, h-bonds, all-angles and h-angles;

@@ -1,0 +1,60 @@
+;
+;       User your_name
+;       
+;       Generic Input file
+;
+title               =  MD run
+cpp                 =  /lib/cpp
+define              = -DPOSRES
+
+integrator          =  md
+tinit               =  0.0
+dt                  =  0.001    ; ps !
+nsteps              =  100000  ; 100000 (steps) * 0.001 (ps) = 100ps
+nstcomm             =  1
+nstxout-compressed  =  5000
+xtc-precision       =  1000
+nstxout             =  0
+nstvout             =  0
+nstfout             =  0
+nstlog              =  0
+nstenergy           =  5000
+ns_type             =  grid
+
+; PME
+coulombtype         = PME
+nstlist             = 10
+rlist               = 1.4
+fourierspacing      = 0.12
+rcoulomb            = 1.4
+pme_order           = 4
+rvdw                = 1.4
+
+vdwtype             = cut-off
+cut-off-scheme      = Verlet
+
+; Energy monitoring 
+energygrps          =  System
+
+Tcoupl              =  V-rescale
+tc-grps             =  Protein  SOL
+tau_t               =  0.1      0.1
+ref_t               =  310.0    310.0
+
+; Isotropic pressure coupling is now on
+Pcoupl              =  Parrinello-Rahman
+Pcoupltype          =  isotropic
+tau_p               =  1.0
+compressibility     =  4.5e-5
+ref_p               =  1.0
+nstpcouple          =  1
+
+; Generate velocites is on at 310 K.
+gen_vel             =  no
+gen_temp            =  310.0
+gen_seed            =  -1
+
+constraint_algorithm=lincs
+lincs_order         =  8
+constraints         =  all-bonds
+lincs-warnangle     =  90
