@@ -1,4 +1,4 @@
-# sars-cov-MD
+# In silico end-to-end protein-ligand interaction characterization pipeline: the case of SARS-CoV-2
 
 # Exploring the Protein Data Bank - a biological 3D structural base
 
