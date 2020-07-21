@@ -17,6 +17,6 @@ General files and scripts will also be referenced here.
 ## GROMACS - a tool for molecular dynamics simulation
 
 In this protocol, the reader will follow a standard workflow to perform molecular dynamics (MD) simulations using the GROMACS software package.
-The target of our tutorial is the main protease of SARS-CoV-2 (MPro) and two alpha-ketoamide inhibitors (13b ligands) which possibly interact with the Mpro monomers A and B. Throughout the tutorial, the reader will examine several input and output files and, in a few cases, run a few scripts. However,
+The target of this tutorial is the main protease of SARS-CoV-2 (MPro) and two alpha-ketoamide inhibitors (13b ligands) which possibly interact with the Mpro monomers A and B. Throughout the tutorial, the reader will examine several input and output files and, in a few cases, run a few scripts. However,
 due to the time-consuming nature of MD, the reader will not perform any simulations, instead all files will be provided in the Molecular_Dynamics folder.
 Please follow the worfklow and inspect the content of each file carefully.
