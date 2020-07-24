@@ -2,8 +2,8 @@
 # Variable to invoke the program GROMACS
 # Please change according to your gromacs instalation
 # This tutorial should worth with gromacs versions 2018-2020
-grom=/gromacs/gromacs-2020.2-GPU/bin/gmx
-#grom=/usr/bin/gmx
+#grom=/gromacs/gromacs-2020.2-GPU/bin/gmx
+grom=/usr/bin/gmx
 
 # In this initialization procedure, we start the MD simulation by
 # introducing temperature and pressure to a frozen still system.
@@ -18,9 +18,9 @@ grom=/gromacs/gromacs-2020.2-GPU/bin/gmx
 SysName=MPro-ligs
 #
 # Input files needed:
-top=../02_Setup/${SysName}.top
-index=../02_Setup/index.ndx
-prev=../03_Minimization/min2.gro
+top=../2_Setup/${SysName}.top
+index=../2_Setup/index.ndx
+prev=../3_Minimization/min2.gro
 
 # Variable defining the name for the first step of the initialization
 curr=init1

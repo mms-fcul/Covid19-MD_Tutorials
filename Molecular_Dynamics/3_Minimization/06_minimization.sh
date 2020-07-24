@@ -17,9 +17,9 @@ grom=/usr/bin/gmx
 Sys=MPro-ligs
 
 # Input files needed:
-top=../02_Setup/${Sys}.top
-index=../02_Setup/index.ndx
-prev=../02_Setup/dode_ion.gro
+top=../2_Setup/${Sys}.top
+index=../2_Setup/index.ndx
+prev=../2_Setup/dode_ion.gro
 # Variable defining the name for the first step of the minimization
 curr=min1
 
@@ -31,15 +31,15 @@ CPUs=8
 # parameters) differ from each other and you should inspect it
 # before running this script. The grompp module prepares a .tpr
 # file with all the compiled simulation settings of our system,
-# incorporatinf the information from the parameters (-f .mdp),
+# incorporating the information from the parameters (-f .mdp),
 # the topology (-p .top), the coordinates (-c .gro) and the index
 # (-n .ndx). It writes a thorough output parameter file with the
-# currently used .mdp parameters (-po .mdp), the ones suplied by
+# currently used .mdp parameters (-po .mdp), the ones supplied by
 # the user and the remaining default ones. It also writes a
 # processed topology (-pp .top) with all topological information
 # of our system, completely independent of the force field used.
 # Finally, the "-maxwarn 1000" overrides the halt order when
-# multiple warning occurs. For this tutorial, the occurring warnings
+# multiple warning occur. For this tutorial, the occurring warnings
 # are not problematic and can be ignored, but for future cases
 # the user should always check for any problematic warnings.
 
